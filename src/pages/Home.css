@@ -1,0 +1,79 @@
+/* Hero Section */
+.hero-section {
+  background: url('https://via.placeholder.com/1920x1080?text=Hero+Image') no-repeat center center/cover; /* Placeholder image */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Add overlay */
+  z-index: 1;
+}
+
+.hero-section h1,
+.hero-section p,
+.hero-section .btn {
+  z-index: 2; /* Ensure content appears above overlay */
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards;
+}
+
+.hero-section h1 {
+  animation-delay: 0.5s;
+}
+
+.hero-section p {
+  animation-delay: 1s;
+}
+
+.hero-section .btn {
+  animation-delay: 1.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Global Dark Mode Styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode .navbar {
+  background-color: #333;
+}
+
+body.dark-mode .hero-section {
+  background: url('https://via.placeholder.com/1920x1080?text=Dark+Hero+Image') no-repeat center center/cover; /* Dark Mode Placeholder */
+}
+
+body.dark-mode .btn {
+  background-color: #f7c50e;
+  color: #121212;
+}
+
+/* Additional Dark Mode Adjustments */
+body.dark-mode .text-white {
+  color: #e0e0e0;
+}
+
+body.dark-mode .bg-primary {
+  background-color: #0d47a1;
+}
