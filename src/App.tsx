@@ -59,6 +59,10 @@ const destinationData = [
 const App: React.FC = () => {
   return (
     <Router>
+      <div>
+        <h1>Welcome to Travel Booking</h1>
+        <CitySearch /> {/* Now CitySearch is used */}
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

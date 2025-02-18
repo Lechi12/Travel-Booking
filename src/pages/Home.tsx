@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import CitySearch from "../components/CitySearch";
 import {
   Container,
   Navbar,
@@ -11,6 +12,7 @@ import {
   Col,
 } from "react-bootstrap";
 
+// Predefined list of destinations
 const predefinedDestinations = [
   {
     name: "Paris",
@@ -30,6 +32,45 @@ const predefinedDestinations = [
     img: "https://img.freepik.com/premium-photo/tokyo-cityscape_959815-382.jpg",
   },
 ];
+
+// Navbar component
+const NavbarComponent: React.FC<{
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+}> = ({ isDarkMode, toggleDarkMode }) => (
+  <Navbar
+    expand="lg"
+    className={`shadow-sm ${
+      isDarkMode ? "bg-dark text-light" : "bg-light text-dark"
+    }`}
+  >
+    <Container>
+      <Navbar.Brand as={Link} to="/" className="fw-bold fs-4">
+        TravelGo
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="ms-auto">
+          <Nav.Link as={Link} to="/" className="fw-semibold">
+            Home
+          </Nav.Link>
+          <Nav.Link as={Link} to="/destinations" className="fw-semibold">
+            Destinations
+          </Nav.Link>
+          <Nav.Link as={Link} to="/bookings" className="fw-semibold">
+            Bookings
+          </Nav.Link>
+          <Nav.Link as={Link} to="/contact" className="fw-semibold">
+            Contact
+          </Nav.Link>
+          <Button variant="outline-secondary" onClick={toggleDarkMode}>
+            Toggle Dark Mode
+          </Button>
+        </Nav>
+      </Navbar.Collapse>
+    </Container>
+  </Navbar>
+);
 
 const Home: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -54,49 +95,17 @@ const Home: React.FC = () => {
       destination.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    if (filteredDestinations.length === 0) {
-      setIsCityFound(false);
-      setSearchResults([]);
-    } else {
-      setIsCityFound(true);
-      setSearchResults(filteredDestinations);
-    }
+    setIsCityFound(filteredDestinations.length > 0);
+    setSearchResults(filteredDestinations);
   };
 
   return (
     <>
       {/* Navbar */}
-      <Navbar
-        bg={isDarkMode ? "dark" : "light"}
-        expand="lg"
-        className="shadow-sm"
-      >
-        <Container>
-          <Navbar.Brand as={Link} to="/" className="fw-bold fs-4">
-            TravelGo
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link as={Link} to="/" className="fw-semibold">
-                Home
-              </Nav.Link>
-              <Nav.Link as={Link} to="/destinations" className="fw-semibold">
-                Destinations
-              </Nav.Link>
-              <Nav.Link as={Link} to="/bookings" className="fw-semibold">
-                Bookings
-              </Nav.Link>
-              <Nav.Link as={Link} to="/contact" className="fw-semibold">
-                Contact
-              </Nav.Link>
-              <Button variant="outline-secondary" onClick={toggleDarkMode}>
-                Toggle Dark Mode
-              </Button>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <NavbarComponent
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+      />
 
       {/* Hero Section */}
       <Container
@@ -107,6 +116,11 @@ const Home: React.FC = () => {
         <p className="lead">
           Book flights, hotels, and tours at the best prices
         </p>
+
+        {/* CitySearch Component */}
+        <CitySearch />
+
+        {/* Search Form */}
         <Form
           className="d-flex justify-content-center mt-3"
           onSubmit={handleSearchSubmit}
@@ -124,7 +138,7 @@ const Home: React.FC = () => {
         </Form>
       </Container>
 
-      {/* Search Results */}
+      {/* Search Results Section */}
       <Container className="py-5">
         <h2 className="text-center mb-4">Search Results</h2>
         {isCityFound ? (
